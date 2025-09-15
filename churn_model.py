@@ -19,7 +19,7 @@ DEFAULT_MODEL_PATH = os.path.join(DEFAULT_MODEL_DIR, "churn_pipeline.joblib")
 
 def load_data(csv_path: str = DEFAULT_CSV_PATH) -> pd.DataFrame:
 	dataframe = pd.read_csv(csv_path)
-	# Coerce TotalCharges to numeric because the dataset may have blanks
+	# Coerce TotalCharges to numeric 
 	if "TotalCharges" in dataframe.columns:
 		dataframe["TotalCharges"] = pd.to_numeric(dataframe["TotalCharges"], errors="coerce")
 	return dataframe
@@ -30,7 +30,7 @@ def split_features_target(dataframe: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Ser
 		raise ValueError("Expected 'Churn' column in dataset")
 	features = dataframe.copy()
 	if "customerID" in features.columns:
-		features = features.drop(columns=["customerID"])  # ID is not predictive
+		features = features.drop(columns=["customerID"])  # drop customerID
 	target = (features.pop("Churn").astype(str).str.strip().str.title() == "Yes").astype(int)
 	return features, target
 
